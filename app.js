@@ -15,12 +15,33 @@ addIngredientBtn.addEventListener('click', () => {
   const ingredient = ingredientInput.value.trim();
   if (ingredient) {
     ingredients.push(ingredient);
-    const li = document.createElement('li');
-    li.textContent = ingredient;
-    ingredientList.appendChild(li);
+    updateIngredientList();
     ingredientInput.value = '';
   }
 });
+
+// Remove ingredient from the list
+function removeIngredient(index) {
+  ingredients.splice(index, 1);
+  updateIngredientList();
+}
+
+// Update the displayed ingredient list
+function updateIngredientList() {
+  ingredientList.innerHTML = '';
+  ingredients.forEach((ingredient, index) => {
+    const li = document.createElement('li');
+    li.textContent = ingredient;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Remove';
+    removeBtn.classList.add('remove-btn');
+    removeBtn.addEventListener('click', () => removeIngredient(index));
+
+    li.appendChild(removeBtn);
+    ingredientList.appendChild(li);
+  });
+}
 
 // Fetch recipes based on ingredients
 getRecipesBtn.addEventListener('click', () => {

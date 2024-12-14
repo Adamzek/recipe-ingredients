@@ -85,3 +85,18 @@ body {
     margin: 0.5rem 0;
   }
   
+  /* Remove Button */
+.remove-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 0.3rem 0.5rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .remove-btn:hover {
+    background-color: #d32f2f;
+  }
+  
