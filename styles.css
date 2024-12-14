@@ -100,3 +100,39 @@ body {
     background-color: #d32f2f;
   }
   
+  /* Icons and Input Field */
+button i, h2 i {
+    margin-right: 0.5rem;
+  }
+  
+  input {
+    padding: 0.5rem;
+    margin-right: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-image: url('https://img.icons8.com/ios-glyphs/30/000000/search--v1.png');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    padding-left: 40px;
+  }
+  
+  /* Recipe Section */
+  .recipe-container img {
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recipe-card button {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+  }
+  
+  .recipe-card button i {
+    color: #fff;
+  }
+  

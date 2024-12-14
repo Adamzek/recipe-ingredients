@@ -82,11 +82,14 @@ function displayRecipes(recipes) {
       <h3>${recipe.title}</h3>
       <img src="${recipe.image}" alt="${recipe.title}">
       <p>Used Ingredients: ${recipe.usedIngredients.map(ing => ing.name).join(', ')}</p>
-      <button onclick="addToFavorites('${recipe.title}')">Add to Favorites</button>
+      <button onclick="addToFavorites('${recipe.title}')">
+        <i class="fas fa-heart"></i> Add to Favorites
+      </button>
     `;
     recipeContainer.appendChild(recipeCard);
   });
 }
+
 
 function addToFavorites(recipeTitle) {
   if (!favorites.includes(recipeTitle)) {
