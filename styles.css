@@ -136,3 +136,31 @@ button i, h2 i {
     color: #fff;
   }
   
+  /* Star Ratings */
+.rating {
+    display: flex;
+    justify-content: center;
+    margin: 0.5rem 0;
+  }
+  
+  .star {
+    font-size: 1.5rem;
+    color: #ffcc00; /* Gold color for stars */
+    cursor: pointer;
+    margin: 0 0.1rem;
+  }
+  
+  .star.far {
+    color: #ccc; /* Gray color for empty stars */
+  }
+  
+  .star:hover,
+  .star:hover ~ .star {
+    color: #ffcc00; /* Highlight stars on hover */
+  }
+  
+  .rating .fas:hover,
+  .rating .fas:hover ~ .far {
+    color: #ffcc00; /* Make all hovered stars gold */
+  }
+  

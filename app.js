@@ -82,13 +82,44 @@ function displayRecipes(recipes) {
       <h3>${recipe.title}</h3>
       <img src="${recipe.image}" alt="${recipe.title}">
       <p>Used Ingredients: ${recipe.usedIngredients.map(ing => ing.name).join(', ')}</p>
+      <div class="rating" data-recipe-id="${recipe.id}">
+        ${generateStars(0)} <!-- Initially unrated -->
+      </div>
       <button onclick="addToFavorites('${recipe.title}')">
         <i class="fas fa-heart"></i> Add to Favorites
       </button>
     `;
     recipeContainer.appendChild(recipeCard);
+
+    // Add event listeners for rating stars
+    const ratingDiv = recipeCard.querySelector('.rating');
+    ratingDiv.querySelectorAll('.star').forEach(star => {
+      star.addEventListener('click', () => handleRating(star, recipe.id));
+    });
   });
 }
+
+function generateStars(rating) {
+  let starsHtml = '';
+  for (let i = 1; i <= 5; i++) {
+    starsHtml += `<i class="fa-star star ${i <= rating ? 'fas' : 'far'}" data-rating="${i}"></i>`;
+  }
+  return starsHtml;
+}
+
+const ratings = {}; // Object to store ratings by recipe ID
+
+function handleRating(star, recipeId) {
+  const rating = parseInt(star.getAttribute('data-rating'), 10);
+  ratings[recipeId] = rating; // Save the rating
+  const ratingDiv = star.parentElement;
+  ratingDiv.innerHTML = generateStars(rating); // Update stars display
+  ratingDiv.querySelectorAll('.star').forEach(starElement => {
+    starElement.addEventListener('click', () => handleRating(starElement, recipeId));
+  });
+  alert(`You rated "${recipeId}" ${rating} stars!`);
+}
+
 
 
 function addToFavorites(recipeTitle) {
