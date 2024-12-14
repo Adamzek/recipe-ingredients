@@ -73,15 +73,45 @@ function getRecipes(ingredients) {
     });
 }
 
+function generateStars(rating = 0) {
+  // Generates stars with the selected rating highlighted
+  let starsHtml = '';
+  for (let i = 1; i <= 5; i++) {
+    starsHtml += `<i class="fa-star star ${i <= rating ? 'fas' : 'far'}" data-rating="${i}"></i>`;
+  }
+  return starsHtml;
+}
+
+const ratings = {}; // Object to store ratings by recipe ID
+
+function handleRating(starElement, recipeId) {
+  const rating = parseInt(starElement.getAttribute('data-rating'), 10); // Get the selected rating
+  ratings[recipeId] = rating; // Save the rating for the recipe
+  const ratingDiv = starElement.parentElement;
+
+  // Update stars display to reflect the selected rating
+  ratingDiv.innerHTML = generateStars(rating);
+  ratingDiv.querySelectorAll('.star').forEach((star) =>
+    star.addEventListener('click', () => handleRating(star, recipeId))
+  );
+
+  // Notify the user of the selected rating
+  alert(`You rated "${recipeId}" ${rating} star${rating > 1 ? 's' : ''}!`);
+}
+
+// Modify displayRecipes to include ratings
 function displayRecipes(recipes) {
   recipeContainer.innerHTML = '';
-  recipes.forEach(recipe => {
+  recipes.forEach((recipe) => {
     const recipeCard = document.createElement('div');
     recipeCard.classList.add('recipe-card');
     recipeCard.innerHTML = `
       <h3>${recipe.title}</h3>
       <img src="${recipe.image}" alt="${recipe.title}">
-      <p>Used Ingredients: ${recipe.usedIngredients.map(ing => ing.name).join(', ')}</p>
+      <p>Used Ingredients: ${recipe.usedIngredients.map((ing) => ing.name).join(', ')}</p>
+      <div class="rating" id="rating-${recipe.id}">
+        ${generateStars(ratings[recipe.id] || 0)} <!-- Default to 0 stars if unrated -->
+      </div>
       <div class="nutrition" id="nutrition-${recipe.id}">
         <button onclick="fetchNutrition(${recipe.id})">View Nutrition</button>
       </div>
@@ -90,8 +120,15 @@ function displayRecipes(recipes) {
       </button>
     `;
     recipeContainer.appendChild(recipeCard);
+
+    // Add event listeners for rating stars
+    const ratingDiv = recipeCard.querySelector(`#rating-${recipe.id}`);
+    ratingDiv.querySelectorAll('.star').forEach((star) =>
+      star.addEventListener('click', () => handleRating(star, recipe.id))
+    );
   });
 }
+
 
 function fetchNutrition(recipeId) {
   const apiKey = '8300e8af134949e49752c9948b730b71'; // Replace with a secure server-side solution
@@ -139,8 +176,6 @@ function generateStars(rating) {
   return starsHtml;
 }
 
-const ratings = {}; // Object to store ratings by recipe ID
-
 function handleRating(star, recipeId) {
   const rating = parseInt(star.getAttribute('data-rating'), 10);
   ratings[recipeId] = rating; // Save the rating
@@ -164,4 +199,31 @@ function addToFavorites(recipeTitle) {
   } else {
     alert(`${recipeTitle} is already in your favorites.`);
   }
+}
+
+function getRecipes(ingredients) {
+  const apiKey = '8300e8af134949e49752c9948b730b71'; // Replace with a secure server-side solution
+  const url = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients.join(',')}&apiKey=${apiKey}`;
+
+  // Display a cute loading GIF
+  recipeContainer.innerHTML = `
+    <div class="loading-container">
+      <iframe src="https://giphy.com/embed/PPlTjK7QqGrcs" width="462" height="480" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/pizza-i-love-is-life-PPlTjK7QqGrcs">via GIPHY</a></p>
+      <p>Fetching delicious recipes...</p>
+    </div>
+  `;
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      if (data.length > 0) {
+        displayRecipes(data);
+      } else {
+        recipeContainer.innerHTML = '<p>No recipes found for the entered ingredients.</p>';
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching recipes:', error);
+      recipeContainer.innerHTML = '<p>Error fetching recipes. Please try again.</p>';
+    });
 }

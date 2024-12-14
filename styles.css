@@ -192,3 +192,19 @@ button i, h2 i {
     background-color: #0056b3;
   }
   
+  /* Loading GIF Styles */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 2rem 0;
+  }
+  
+  .loading-gif {
+    width: 150px;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+  
