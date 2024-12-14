@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -12,12 +13,6 @@ body {
     text-align: center;
   }
   
-  header nav a {
-    color: #fff;
-    margin: 0 1rem;
-    text-decoration: none;
-  }
-  
   main {
     padding: 1rem;
   }
@@ -26,24 +21,67 @@ body {
     margin: 2rem 0;
   }
   
-  .book-list {
+  button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  input {
+    padding: 0.5rem;
+    margin-right: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  /* Recipe Styles */
+  .recipe-container {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    justify-content: center;
   }
   
-  .book-list .book {
+  .recipe-card {
     border: 1px solid #ddd;
+    border-radius: 8px;
     padding: 1rem;
-    width: calc(33% - 2rem);
     text-align: center;
+    background-color: #f9f9f9;
+    width: 200px;
+    transition: box-shadow 0.3s ease;
   }
   
-  footer {
-    background: #222;
-    color: #fff;
-    text-align: center;
-    padding: 1rem 0;
+  .recipe-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .recipe-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  /* Favorites Section */
+  .favorites-section {
     margin-top: 2rem;
+    padding: 1rem;
+    border-top: 1px solid #ddd;
+  }
+  
+  .favorites-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .favorites-section li {
+    margin: 0.5rem 0;
   }
   

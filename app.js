@@ -3,84 +3,77 @@ const ingredientInput = document.getElementById('ingredient-input');
 const addIngredientBtn = document.getElementById('add-ingredient');
 const ingredientList = document.getElementById('ingredient-list');
 const getRecipesBtn = document.getElementById('get-recipes');
+const favoritesList = document.getElementById('favorites-list');
+const recipeContainer = document.getElementById('recipe-container');
 
-// Store ingredients in an array
+// Store ingredients and favorites
 const ingredients = [];
+let favorites = [];
 
-// Event listener to add ingredients to the list
+// Add ingredients to the list
 addIngredientBtn.addEventListener('click', () => {
   const ingredient = ingredientInput.value.trim();
   if (ingredient) {
-    ingredients.push(ingredient); // Add the ingredient to the array
+    ingredients.push(ingredient);
     const li = document.createElement('li');
     li.textContent = ingredient;
     ingredientList.appendChild(li);
-    ingredientInput.value = ''; // Clear input field
+    ingredientInput.value = '';
   }
 });
 
-// Event listener to fetch recipes when the user clicks the "Get Recipes" button
+// Fetch recipes based on ingredients
 getRecipesBtn.addEventListener('click', () => {
   if (ingredients.length > 0) {
-    getRecipes(ingredients); // Fetch recipes using the entered ingredients
+    getRecipes(ingredients);
   } else {
     alert('Please add some ingredients first!');
   }
 });
 
-// Function to get recipes from Spoonacular API
 function getRecipes(ingredients) {
-  const apiKey = '8300e8af134949e49752c9948b730b71'; // Your actual API key here
+  const apiKey = '8300e8af134949e49752c9948b730b71'; // Replace with a secure server-side solution
   const url = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients.join(',')}&apiKey=${apiKey}`;
 
+  recipeContainer.innerHTML = '<p>Loading recipes...</p>';
+
   fetch(url)
-    .then(response => response.json()) // Convert the response to JSON format
+    .then(response => response.json())
     .then(data => {
       if (data.length > 0) {
-        displayRecipes(data); // Display the recipes on the page
+        displayRecipes(data);
       } else {
-        alert('No recipes found for the ingredients entered.');
+        recipeContainer.innerHTML = '<p>No recipes found for the entered ingredients.</p>';
       }
     })
     .catch(error => {
       console.error('Error fetching recipes:', error);
-      alert('There was an error fetching the recipes.');
+      recipeContainer.innerHTML = '<p>Error fetching recipes. Please try again.</p>';
     });
 }
 
-// Function to display the fetched recipes
 function displayRecipes(recipes) {
-  const recipeContainer = document.getElementById('recipe-container') || document.createElement('div');
-  recipeContainer.id = 'recipe-container';
-  recipeContainer.innerHTML = '<h2>Recipe Suggestions:</h2>'; // Add a header
-
+  recipeContainer.innerHTML = '';
   recipes.forEach(recipe => {
     const recipeCard = document.createElement('div');
-    recipeCard.classList.add('recipe-card'); // Add a class for styling
+    recipeCard.classList.add('recipe-card');
     recipeCard.innerHTML = `
       <h3>${recipe.title}</h3>
-      <img src="${recipe.image}" alt="${recipe.title}" style="width:150px;">
-      <p>Used Ingredients: ${recipe.usedIngredients.map(ingredient => ingredient.name).join(', ')}</p>
-      <button onclick="saveToFavorites('${recipe.title}')">Save to Favorites</button>
+      <img src="${recipe.image}" alt="${recipe.title}">
+      <p>Used Ingredients: ${recipe.usedIngredients.map(ing => ing.name).join(', ')}</p>
+      <button onclick="addToFavorites('${recipe.title}')">Add to Favorites</button>
     `;
     recipeContainer.appendChild(recipeCard);
   });
-
-  // Append recipe container to the body (or replace if it already exists)
-  const existingContainer = document.getElementById('recipe-container');
-  if (existingContainer) {
-    existingContainer.replaceWith(recipeContainer);
-  } else {
-    document.body.appendChild(recipeContainer);
-  }
 }
 
-// Function to save recipes to favorites
-let favorites = []; // Array to store favorite recipes
-function saveToFavorites(recipeTitle) {
+function addToFavorites(recipeTitle) {
   if (!favorites.includes(recipeTitle)) {
     favorites.push(recipeTitle);
-    alert(`${recipeTitle} has been added to your favorites!`);
+    const li = document.createElement('li');
+    li.textContent = recipeTitle;
+    favoritesList.appendChild(li);
+    alert(`${recipeTitle} added to your favorites!`);
   } else {
     alert(`${recipeTitle} is already in your favorites.`);
   }

@@ -4,48 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recipe Finder</title>
-  <style>
-    .recipe-card {
-      border: 1px solid #ddd;
-      padding: 1rem;
-      width: 200px;
-      text-align: center;
-      background-color: #f9f9f9;
-      margin-bottom: 1rem;
-    }
-
-    .recipe-card img {
-      width: 150px;
-      height: auto;
-    }
-
-    button {
-      background-color: #4caf50;
-      color: white;
-      border: none;
-      padding: 0.5rem;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <header>
+    <h1>Recipe Finder</h1>
+  </header>
 
-  <h1>Recipe Finder</h1>
+  <main>
+    <section class="ingredient-section">
+      <div>
+        <input type="text" id="ingredient-input" placeholder="Enter an ingredient">
+        <button id="add-ingredient">Add Ingredient</button>
+      </div>
+      <ul id="ingredient-list"></ul>
+      <button id="get-recipes">Get Recipes</button>
+    </section>
 
-  <div>
-    <input type="text" id="ingredient-input" placeholder="Enter an ingredient">
-    <button id="add-ingredient">Add Ingredient</button>
-  </div>
-  
-  <ul id="ingredient-list"></ul>
-  <button id="get-recipes">Get Recipes</button>
+    <section id="recipe-container" class="recipe-container"></section>
 
-  <!-- This container will display the recipe results -->
-  <div id="recipe-container"></div>
+    <section id="favorites-section" class="favorites-section">
+      <h2>Your Favorites</h2>
+      <ul id="favorites-list"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Recipe Finder © 2024</p>
+  </footer>
 
   <script src="app.js"></script>
 </body>
