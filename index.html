@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Finder</title>
+  <style>
+    .recipe-card {
+      border: 1px solid #ddd;
+      padding: 1rem;
+      width: 200px;
+      text-align: center;
+      background-color: #f9f9f9;
+      margin-bottom: 1rem;
+    }
+
+    .recipe-card img {
+      width: 150px;
+      height: auto;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Recipe Finder</h1>
+
+  <div>
+    <input type="text" id="ingredient-input" placeholder="Enter an ingredient">
+    <button id="add-ingredient">Add Ingredient</button>
+  </div>
+  
+  <ul id="ingredient-list"></ul>
+  <button id="get-recipes">Get Recipes</button>
+
+  <!-- This container will display the recipe results -->
+  <div id="recipe-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
