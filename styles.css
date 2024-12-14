@@ -164,3 +164,31 @@ button i, h2 i {
     color: #ffcc00; /* Make all hovered stars gold */
   }
   
+  /* Nutrition Information */
+.nutrition ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+  
+  .nutrition li {
+    margin: 0.2rem 0;
+    color: #333;
+  }
+  
+  .nutrition button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 0.3rem 0.5rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  
+  .nutrition button:hover {
+    background-color: #0056b3;
+  }
+  

@@ -82,22 +82,54 @@ function displayRecipes(recipes) {
       <h3>${recipe.title}</h3>
       <img src="${recipe.image}" alt="${recipe.title}">
       <p>Used Ingredients: ${recipe.usedIngredients.map(ing => ing.name).join(', ')}</p>
-      <div class="rating" data-recipe-id="${recipe.id}">
-        ${generateStars(0)} <!-- Initially unrated -->
+      <div class="nutrition" id="nutrition-${recipe.id}">
+        <button onclick="fetchNutrition(${recipe.id})">View Nutrition</button>
       </div>
       <button onclick="addToFavorites('${recipe.title}')">
         <i class="fas fa-heart"></i> Add to Favorites
       </button>
     `;
     recipeContainer.appendChild(recipeCard);
-
-    // Add event listeners for rating stars
-    const ratingDiv = recipeCard.querySelector('.rating');
-    ratingDiv.querySelectorAll('.star').forEach(star => {
-      star.addEventListener('click', () => handleRating(star, recipe.id));
-    });
   });
 }
+
+function fetchNutrition(recipeId) {
+  const apiKey = '8300e8af134949e49752c9948b730b71'; // Replace with a secure server-side solution
+  const url = `https://api.spoonacular.com/recipes/${recipeId}/information?includeNutrition=true&apiKey=${apiKey}`;
+  
+  const nutritionDiv = document.getElementById(`nutrition-${recipeId}`);
+  nutritionDiv.innerHTML = '<p>Loading nutrition...</p>';
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      if (data.nutrition && data.nutrition.nutrients.length > 0) {
+        displayNutrition(data.nutrition.nutrients, recipeId);
+      } else {
+        nutritionDiv.innerHTML = '<p>No nutritional information available.</p>';
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching nutrition:', error);
+      nutritionDiv.innerHTML = '<p>Error loading nutritional information.</p>';
+    });
+}
+
+function displayNutrition(nutrients, recipeId) {
+  const nutritionDiv = document.getElementById(`nutrition-${recipeId}`);
+  const importantNutrients = nutrients.filter(nutrient =>
+    ['Calories', 'Protein', 'Fat', 'Carbohydrates'].includes(nutrient.name)
+  );
+
+  nutritionDiv.innerHTML = `
+    <ul>
+      ${importantNutrients.map(nutrient => `
+        <li>${nutrient.name}: ${nutrient.amount} ${nutrient.unit}</li>
+      `).join('')}
+    </ul>
+  `;
+}
+
 
 function generateStars(rating) {
   let starsHtml = '';
